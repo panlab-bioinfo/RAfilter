@@ -1,6 +1,7 @@
 #include "clipp.h"
 #include <iostream>
 #include "kmerfind4.hpp"
+#include "filter.hpp"
 #include <thread>
 using namespace clipp;using std::cout;using std::string;using std::thread;
 
@@ -9,12 +10,15 @@ int main(int argc, char* argv[]) {
     string ref_file = "";
 	string query_file = "";
 	string output_path = "./";
+	string align = "";
+	bool align_fmt = 0;
     int t1=4,t2=8;
     auto cli = (
         option("-t", "--threads").doc("Number of threads") & value("threads", t2),
 		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
 		option("-q", "--query").doc("Query/Reads fasta file") & value("query",query_file),
 		option("-r", "--reference").doc("Reference fasta file") & value("reffile", ref_file),
+		(option("-p").set(align_fmt) | option("-b").set(align_fmt=1)).doc("fmt of alignment file p:paf/b:bam") & value("paf/bam", align),
         value("kmerfile", kmer_file).doc("Kmer file with creating by jellyfish")
     );
 
@@ -51,6 +55,7 @@ int main(int argc, char* argv[]) {
 		cout << "Usage:\n" << usage_lines(cli, "KAfilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << '\n';
 		cout << "\nerror: Too few arguments!\n";
+		// throw "Division by zero condition!";
 		exit(0);
 	};
 	// system("mkdir ");
@@ -61,5 +66,11 @@ int main(int argc, char* argv[]) {
 	if (query_file!="")
 		build_pos(query_file.c_str(), output_path, 0, t1, t2);
 	cout<<"Building pos finished!\n";
+	if (align != ""){
+		// align_fmt will be transmited later.
+		string refpos=output_path+"/ref.pos";
+		string querypos=output_path+"/query.pos";
+		read_file(align,refpos,querypos);
+	}
 	return 0;
 }

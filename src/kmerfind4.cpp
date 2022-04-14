@@ -270,14 +270,14 @@ int build_pos(const char  *fasta_file, string out_path, bool type, int t1, int t
     fa.close();
 	string cmd,cmd2;
 	if(type){
-		cmd="cat " + out_path +"/* > "+ out_path + "/ref.pos";
+		cmd="cat " + out_path +"/*_r.pos > "+ out_path + "/ref.pos";
 		cmd2="rm "+out_path + "/*_r.pos";
 	}
 	else{
-		cmd="cat " + out_path +"/* > "+ out_path + "/query.pos";
+		cmd="cat " + out_path +"/*_q.pos > "+ out_path + "/query.pos";
 		cmd2="rm "+out_path + "/*_q.pos";
 	}
-	// system(cmd.c_str());
-	// system(cmd2.c_str());
+	system(cmd.c_str());
+	system(cmd2.c_str());
     return 1;
 }

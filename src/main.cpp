@@ -3,23 +3,49 @@
 #include "kmerfind4.hpp"
 #include "filter.hpp"
 #include <thread>
-using namespace clipp;using std::cout;using std::string;using std::thread;
 
-int main(int argc, char* argv[]) { 
+
+using namespace clipp;using std::cout;using std::string;using std::thread;
+/*
+	description:
+
+
+
+*/
+
+string program_name="kmfilter";
+string version="V0.0.1";
+
+
+int main(int argc, char* argv[]) {
+	bool help=false;
+	char mode = 'N';
     string kmer_file = "";
     string ref_file = "";
 	string query_file = "";
 	string output_path = "./";
 	string align = "";
+	string rpos="",qpos="";
 	bool align_fmt = 0;
-    int t1=4,t2=8;
-    auto cli = (
-        option("-t", "--threads").doc("Number of threads") & value("threads", t2),
-		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
+	//t1:[1,2,3,4,5]
+    int t1=1,t2=8;
+	auto build = "build:" %(
 		option("-q", "--query").doc("Query/Reads fasta file") & value("query",query_file),
 		option("-r", "--reference").doc("Reference fasta file") & value("reffile", ref_file),
-		(option("-p").set(align_fmt) | option("-b").set(align_fmt=1)).doc("fmt of alignment file p:paf/b:bam") & value("paf/bam", align),
-        value("kmerfile", kmer_file).doc("Kmer file with creating by jellyfish")
+		value("kmerfile", kmer_file).doc("Kmer file with creating by jellyfish")
+	);
+	auto filter = "filter:" %(
+		(option("-p") | option("-b").set(align_fmt,true)).doc("Format of alignment file [p:paf/b:bam]"),
+		value("r_pos",rpos).doc("Ref pos file built with build"),
+		value("q_pos",qpos).doc("Query pos file built with build"),
+		value("paf/bam", align).doc("Alignment file")
+	);
+
+
+    auto cli = (
+		option("-t", "--threads").doc("Number of threads") & value("threads", t2),
+		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
+		(command("build").set(mode,'b'),build) | (command("filter").set(mode,'f'),filter) | command("-h","--help").set(help,true).doc("Show this page") | command("-V","--version")([](){ cout<<program_name<<"__"<<version<<"__"<<endl;}).doc("Version")
     );
 
 	auto fmt = doc_formatting{}
@@ -32,7 +58,7 @@ int main(int argc, char* argv[]) {
 		.flag_separator(", ")                      //between flags of the same parameter
 		.param_separator(" ")                      //between parameters 
 		.group_separator(" ")                      //between groups (in usage)
-		.alternative_param_separator("|")          //between alternative flags 
+		.alternative_param_separator("/")          //between alternative flags 
 		.alternative_group_separator(" | ")        //between alternative groups 
 		.surround_group("(", ")")                  //surround groups with these 
 		.surround_alternatives("(", ")")           //surround group of alternatives with these
@@ -50,27 +76,53 @@ int main(int argc, char* argv[]) {
 		;
 
 
-
     if(!parse(argc, const_cast<char **>(argv), cli)) {
 		cout << "Usage:\n" << usage_lines(cli, "KAfilter", fmt)
-     << "\nOptions:\n" << documentation(cli, fmt) << '\n';
-		cout << "\nerror: Too few arguments!\n";
+     << "\nOptions:\n" << documentation(cli, fmt) << "\nERROR: Required parameter missing\n";
 		// throw "Division by zero condition!";
 		exit(0);
-	};
-	// system("mkdir ");
-	read_kmer(kmer_file.c_str(),t1);
-    cout << "Create dict finished!\n";
-	if (ref_file!="")
-		build_pos(ref_file.c_str(), output_path, 1, t1, t2);
-	if (query_file!="")
-		build_pos(query_file.c_str(), output_path, 0, t1, t2);
-	cout<<"Building pos finished!\n";
-	if (align != ""){
-		// align_fmt will be transmited later.
-		string refpos=output_path+"/ref.pos";
-		string querypos=output_path+"/query.pos";
-		read_file(align,refpos,querypos);
+	}
+	if (help){
+		cout << "Usage:\n" << usage_lines(cli, "KAfilter", fmt)
+     << "\nOptions:\n" << documentation(cli, fmt) << '\n';
+		// throw "Division by zero condition!";
+		return 0;
+	}
+
+
+
+
+	if (output_path!="./"){
+		string cmd = "mkdir -p "+output_path;
+		system(cmd.c_str());
+	}
+	
+	/* 
+	 *	Build the kmer pos for certain fasta file
+	*/
+	if (mode=='b'){
+		cout<<"Building kmer pos for input fa\nReading the kmer file----------------------------\n";
+		if (fopen(kmer_file.c_str(),"r")){
+			read_kmer(kmer_file.c_str(),t1);
+			cout<<"Saved the kmer in hash table\n";
+		}
+		else{
+			perror("Kmer file not exist!");
+			exit(0);
+		}
+		if (fopen(ref_file.c_str(),"r"))
+			build_pos(ref_file.c_str(), output_path, 1, t1, t2);
+		if (fopen(query_file.c_str(),"r"))
+			build_pos(query_file.c_str(),output_path, 0, t1, t2);
+		cout<<"Building pos finished!\n";
+	}
+
+
+	if (mode=='f'){
+		if (align != ""){
+			// align_fmt will be transmited later.
+			read_file(align,rpos,qpos,align_fmt,output_path);
+		}
 	}
 	return 0;
 }

@@ -1,8 +1,10 @@
 object = main.o kmerfind4.o filter.o
 target = kmfilter
+LIBS += -L  htslib/ -lhts
 kmfilter: $(object)
-	g++ -o $(target) $(object) -lpthread
-	mv $(target) ../
+	g++ -g -o $(target) $(object) $(LIBS) -lpthread
+
+
 .PHONY : clean
 clean :
 	rm $(objects)

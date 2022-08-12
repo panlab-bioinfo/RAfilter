@@ -30,11 +30,14 @@ int main(int argc, char* argv[]) {
 	//t1:[1,2,3,4,5]
     int t1=1,t2=8;
 	auto build = "build:" %(
+		option("-t", "--threads").doc("Number of threads") & value("threads", t2),
+		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
 		option("-q", "--query").doc("Query/Reads fasta file") & value("query",query_file),
 		option("-r", "--reference").doc("Reference fasta file") & value("reffile", ref_file),
 		value("kmerfile", kmer_file).doc("Kmer file with creating by jellyfish")
 	);
 	auto filter = "filter:" %(
+		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
 		(option("-p") | option("-b").set(align_fmt,true)).doc("Format of alignment file [p:paf/b:bam]"),
 		value("r_pos",rpos).doc("Ref pos file built with build"),
 		value("q_pos",qpos).doc("Query pos file built with build"),
@@ -43,8 +46,6 @@ int main(int argc, char* argv[]) {
 
 
     auto cli = (
-		option("-t", "--threads").doc("Number of threads") & value("threads", t2),
-		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
 		(command("build").set(mode,'b'),build) | (command("filter").set(mode,'f'),filter) | command("-h","--help").set(help,true).doc("Show this page") | command("-V","--version")([](){ cout<<program_name<<"__"<<version<<"__"<<endl;}).doc("Version")
     );
 
@@ -77,13 +78,13 @@ int main(int argc, char* argv[]) {
 
 
     if(!parse(argc, const_cast<char **>(argv), cli)) {
-		cout << "Usage:\n" << usage_lines(cli, "KAfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "Kmfilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << "\nERROR: Required parameter missing\n";
 		// throw "Division by zero condition!";
 		exit(0);
 	}
 	if (help){
-		cout << "Usage:\n" << usage_lines(cli, "KAfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "Kmfilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << '\n';
 		// throw "Division by zero condition!";
 		return 0;

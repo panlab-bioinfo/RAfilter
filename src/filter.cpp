@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include "sam.h"
+#include "htslib/sam.h"
 using namespace std;
 
 typedef list<uint64_t> KLIST;

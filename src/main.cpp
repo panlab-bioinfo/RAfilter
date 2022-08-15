@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
 	string output_path = "./";
 	string align = "";
 	string rpos="",qpos="";
+	int threshold = 12;
 	bool align_fmt = 0;
 	//t1:[1,2,3,4,5]
     int t1=1,t2=8;
@@ -39,6 +40,7 @@ int main(int argc, char* argv[]) {
 	auto filter = "filter:" %(
 		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
 		(option("-p") | option("-b").set(align_fmt,true)).doc("Format of alignment file [p:paf/b:bam]"),
+		option("--threshold").doc("Threshold of KMAPQ to filter") & value("threshold", threshold),
 		value("r_pos",rpos).doc("Ref pos file built with build"),
 		value("q_pos",qpos).doc("Query pos file built with build"),
 		value("paf/bam", align).doc("Alignment file")
@@ -102,7 +104,7 @@ int main(int argc, char* argv[]) {
 	 *	Build the kmer pos for certain fasta file
 	*/
 	if (mode=='b'){
-		cout<<"Building kmer pos for input fa\nReading the kmer file----------------------------\n";
+		cout<<"Building kmer pos for input fa\nReading the kmer file---------------------------------------------------------------\n";
 		if (fopen(kmer_file.c_str(),"r")){
 			read_kmer(kmer_file.c_str(),t1);
 			cout<<"Saved the kmer in hash table\n";
@@ -122,7 +124,7 @@ int main(int argc, char* argv[]) {
 	if (mode=='f'){
 		if (align != ""){
 			// align_fmt will be transmited later.
-			read_file(align,rpos,qpos,align_fmt,output_path);
+			read_file(align, rpos, qpos, align_fmt, output_path, threshold);
 		}
 	}
 	return 0;

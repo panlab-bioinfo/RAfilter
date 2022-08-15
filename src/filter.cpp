@@ -9,6 +9,7 @@ typedef unordered_map<string,pair<uint64_t,uint64_t>> lib;
 lib ref_lib;
 lib reads_lib;
 KMER_LIST ref_data;
+int static_threshold;
 
 void split(string q,string item[])
 {
@@ -281,9 +282,10 @@ int sam_evaluation(int r_posstart,int r_posend,string queryname,int q_posstart,i
 
 int paf_filter(string paf,string r_pos, FILE *q_pos, FILE *fo){
 	string temp;
-	string name=" ";
+	string name = " ";
 	string b[100];
 	int value;
+	int filter = 0, total = 0;
 	ifstream fp(paf);
 	while(getline(fp,temp)){
 		split(temp,b);
@@ -294,9 +296,17 @@ int paf_filter(string paf,string r_pos, FILE *q_pos, FILE *fo){
 			name=b[5];
 		}
 		value=paf_evaluation(b,q_pos);
-		
-		fprintf(fo,"%s\t%d\n",temp.c_str(),value);
+		total++;
+		if (value > static_threshold || value < 0){
+			fprintf(fo,"%s\n",temp.c_str());
+			filter++;
+		}
 	}
+	cout.width(30);
+	cout<<"Total alignments count:\t";
+	cout<<total<<"\n";
+	cout<<"Filter alignments count:\t";
+	cout<<filter<<endl;
 	fp.close();
 	return 1;
 }
@@ -310,6 +320,7 @@ int sam_filter(string inpath,string r_pos, FILE *q_pos, FILE *fo,string outpath)
 		hts_itr_t *iter = NULL;
 		int ret;
         int value;
+		int filter = 0, total = 0;
 		string name="/";
         string outflie=outpath+"filter.sam";
 		if ((in = hts_open(inpath.c_str(), "rb")) == NULL) {
@@ -348,12 +359,22 @@ int sam_filter(string inpath,string r_pos, FILE *q_pos, FILE *fo,string outpath)
                 name=refname;
 			}
             value=sam_evaluation(r_startpos,r_endpos,queryname,q_startpos,q_endpos,q_pos);
-			if (sam_write1(out, hdr, b) < 0) {
-				fprintf(stderr, "[E::%s] Error writing alignments.\n", __func__);
-				goto fail;
+			total++;
+			if (value > 12 || value < 0){
+				filter++;
+				if (sam_write1(out, hdr, b) < 0) {
+					fprintf(stderr, "[E::%s] Error writing alignments.\n", __func__);
+					goto fail;
+				}
 			}
 			
 		}
+
+		cout.width(30);
+		cout<<"Total alignments count:\t";
+		cout<<total<<"\n";
+		cout<<"Filter alignments count:\t";
+		cout<<filter<<endl;
 		if (ret < -1) {
 			fprintf(stderr, "[E::%s] Error parsing input.\n", __func__);
 			goto fail;
@@ -386,8 +407,9 @@ int sam_filter(string inpath,string r_pos, FILE *q_pos, FILE *fo,string outpath)
 }
 
 
-int read_file(string align_file,string r_pos,string q_pos,bool fmt,string out_path)
+int read_file(string align_file,string r_pos,string q_pos,bool fmt,string out_path,int thre)
 {
+	static_threshold = thre;
     lib_init(r_pos,ref_lib);
     lib_init(q_pos,reads_lib);
 	string outfile = out_path+"filter.paf";

@@ -13,7 +13,7 @@ using namespace clipp;using std::cout;using std::string;using std::thread;
 
 */
 
-string program_name="kmfilter";
+string program_name="RAfilter";
 string version="V0.0.1";
 
 
@@ -80,13 +80,13 @@ int main(int argc, char* argv[]) {
 
 
     if(!parse(argc, const_cast<char **>(argv), cli)) {
-		cout << "Usage:\n" << usage_lines(cli, "Kmfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "RAfilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << "\nERROR: Required parameter missing\n";
 		// throw "Division by zero condition!";
 		exit(0);
 	}
 	if (help){
-		cout << "Usage:\n" << usage_lines(cli, "Kmfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "RAfilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << '\n';
 		// throw "Division by zero condition!";
 		return 0;

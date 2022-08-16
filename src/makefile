@@ -3,7 +3,7 @@ target = kmfilter
 LIBS += -L htslib/ -lhts -I htslib/htslib/
 
 
-kmfilter : $(object)
+RAfilter : $(object)
 	echo Generate an executable file
 	g++ -g -o $(target) $(object) $(LIBS) -lpthread
 	echo add htslib to LD_LIBRARY_PATH

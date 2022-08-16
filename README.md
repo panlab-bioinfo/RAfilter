@@ -1,34 +1,34 @@
-# <div align=center>kmfilter</div>
+# <div align=center>RAfilter</div>
 
 ## Introduction
 
-**Kmfilter** is a filter cli software to obtain the correct alignments and it can only use on linux because of the cost of resource consumption. The program uses  ordered kemr list to evaluate alignments and decides if them should be filtered.
+**RAfilter** is a filter cli software to obtain the correct alignments and it can only use on linux because of the cost of resource consumption. The program uses  ordered kemr list to evaluate alignments and decides if them should be filtered.
 
 ## Install
 
-**kmfilter** requests [**jellyfish**](https://github.com/gmarcais/Jellyfish) to get the kmers of sequence and [htslib](https://github.com/samtools/htslib) to handle .BAM file. We consider integrating  feature of jellyfish in **kmfilter** in the future. The htslib have be put in our workflow, so you don't need additional installation. But **jellyfish** is needed to install by yourself.
+**RAfilter** requests [**jellyfish**](https://github.com/gmarcais/Jellyfish) to get the kmers of sequence and [htslib](https://github.com/samtools/htslib) to handle .BAM file. We consider integrating  feature of jellyfish in **RAfilter** in the future. The htslib have be put in our workflow, so you don't need additional installation. But **jellyfish** is needed to install by yourself.
 
 1. The installation method of jullyfish is following <https://github.com/gmarcais/Jellyfish>.
    Please see <https://github.com/samtools/htslib> about htslib.
-2. Get and install kmfilter  
-   `git clone https://github.com/ruoyu1123/kmfilter.git`  
-   `cd kmfilter/src`  
+2. Get and install RAfilter  
+   `git clone https://github.com/ruoyu1123/RAfilter.git`  
+   `cd RAfilter/src`  
    `make`
    `source ~/.bashrc`
   
-Note: If the following error: "kmfilter: error while loading shared libraries: libhts.so.3: cannot open shared object file: No such file or directory" occurs on runing kmfilter, please add the htslib path to the `LD_LIBRARY_PATH`  
+Note: If the following error: "RAfilter: error while loading shared libraries: libhts.so.3: cannot open shared object file: No such file or directory" occurs on runing RAfilter, please add the htslib path to the `LD_LIBRARY_PATH`  
 
 ## Usage
 
-The workflow of kmfilter is a two-step process. The first is build kmer pos library and the second step is filter alignments.  
+The workflow of RAfilter is a two-step process. The first is build kmer pos library and the second step is filter alignments.  
 
 ```shell{.line-numbers}
- $ kmfilter
+ $ RAfilter
 Usage:
-        Kmfilter build [-t <threads>] [-o <out_path>] [-q <query>] [-r <reffile>] <kmerfile>
-        Kmfilter filter [-o <out_path>] [-p/-b] <r_pos> <q_pos> <paf/bam>
-        Kmfilter -h
-        Kmfilter -V
+        RAfilter build [-t <threads>] [-o <out_path>] [-q <query>] [-r <reffile>] <kmerfile>
+        RAfilter filter [-o <out_path>] [-p/-b] <r_pos> <q_pos> <paf/bam>
+        RAfilter -h
+        RAfilter -V
 Options:
         build:
             -t, --threads     Number of threads
@@ -50,7 +50,7 @@ Options:
 
 ### **Input file**
 
-**kmfilter** requests the result of **jellyfish** and the format as follow. On the workflow, kmer length must be 21. The detail see https://github.com/gmarcais/Jellyfish/blob/master/doc/Readme.md
+**RAfilter** requests the result of **jellyfish** and the format as follow. On the workflow, kmer length must be 21. The detail see https://github.com/gmarcais/Jellyfish/blob/master/doc/Readme.md
 
 ```shell{}
 jellyfish count -m 21 -s 1G -t 16 -C reads.fasta
@@ -62,9 +62,9 @@ jellyfish dump -c -U 1 mer_counts.jf > unique.kmer   # HiFi reads
 jellyfish dump -c -U 3 mer_counts.jf > rare.kmer   # ONT reads
 ```
 
-NOTE: The parameter -c is necessary for kmfilter because of input format.  
+NOTE: The parameter -c is necessary for RAfilter because of input format.  
 
-Fasta format with one line ACGT sequence for one only be support for input sequence by **kmfilter bulid -q/-r**.  
+Fasta format with one line ACGT sequence for one only be support for input sequence by **RAfilter bulid -q/-r**.  
 For example:
 
 ```shell{.line_numbers}
@@ -96,7 +96,7 @@ As follow command illustration, the -t is number of threads and its value should
 
 ```shell{}
 # Example for build
-kmfilter build -t 32 -q query.fa -r reference.fa -o test/ unique.kmer
+RAfilter build -t 32 -q query.fa -r reference.fa -o test/ unique.kmer
 ```
 
 The kmer poses library file will get in this step named `ref.pos and query.pos` and as input in filter step. PLease Mmake sure your storage space is enough to store the all kmer pos.
@@ -107,7 +107,7 @@ In this step, alignment file and pos file creating in [**build**](#build-library
 
 ```shell{}
 # For example
-kmfilter filter -o test/ -p ref.pos query.pos alignment.paf
+RAfilter filter -o test/ -p ref.pos query.pos alignment.paf
 ```
 
 This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on XXXXXXXX.

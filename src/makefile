@@ -1,3 +1,4 @@
+include htslib/Makefile
 object = main.o kmerfind4.o filter.o
 target = kmfilter
 LIBS += -L  htslib/ -lhts

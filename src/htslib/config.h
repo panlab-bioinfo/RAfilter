@@ -105,7 +105,7 @@
 #define PACKAGE_NAME "HTSlib"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "HTSlib 1.15.1-15-ge51f72f"
+#define PACKAGE_STRING "HTSlib 1.13"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "htslib"
@@ -114,7 +114,7 @@
 #define PACKAGE_URL "http://www.htslib.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.15.1-15-ge51f72f"
+#define PACKAGE_VERSION "1.13"
 
 /* Platform-dependent plugin filename extension. */
 /* #undef PLUGIN_EXT */

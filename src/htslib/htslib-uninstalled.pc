@@ -1,5 +1,5 @@
-includedir=/data/zhaoxianjia/packages/htslib-setup
-libdir=/data/zhaoxianjia/packages/htslib-setup
+includedir=/data/yangjinbao/software/lib/htslib-1.13
+libdir=/data/yangjinbao/software/lib/htslib-1.13
 
 # Flags and libraries needed when linking against a static libhts.a
 # (used by manual and semi-manual pkg-config(1)-style enquiries).

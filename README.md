@@ -14,9 +14,8 @@
    `git clone https://github.com/ruoyu1123/kmfilter.git`  
    `cd kmfilter/src`  
    `make`
-3. Add the path to environment variables.  
-   `echo export PATH = $PATH:$install_PATH/kmfilter/src/`  
-
+   `source ~/.bashrc`
+  
 Note: If the following error: "kmfilter: error while loading shared libraries: libhts.so.3: cannot open shared object file: No such file or directory" occurs on runing kmfilter, please add the htslib path to the `LD_LIBRARY_PATH`  
 
 ## Usage
@@ -93,7 +92,7 @@ awk '/^>/{print n $1; n = "\n"} !/^>/{printf "%s",$0}' test.fasta > reference.fa
 
 ### **Build library**  
 
-As follow command illustration, the -t is number of threads and its value should be lower than 54. At least, it is a nessary parameter to one or both of -p and -r. If the \<out_path\> provided is not exist, it will be created.  Otherwise, it better be empty. if it doesn't be provided, it will be ./. The kmerfile is a necessary parameter obtained in the previous step by jellyfish. 
+As follow command illustration, the -t is number of threads and its value should be lower than 54. At least, it is a nessary parameter to one or both of -p and -r. If the \<out_path\> provided is not exist, it will be created.  Otherwise, it better be empty. if it doesn't be provided, it will be ./. The kmerfile is a necessary parameter obtained in the previous step by jellyfish.  
 
 ```shell{}
 # Example for build
@@ -104,7 +103,7 @@ The kmer poses library file will get in this step named `ref.pos and query.pos` 
 
 ### **Filter**
 
-In this step, alignment file and pos file creating in [**build**](#build-library) and format of alignment can be .paf or .bam. 
+In this step, alignment file and pos file creating in [**build**](#build-library) and format of alignment can be .paf or .bam.  
 
 ```shell{}
 # For example
@@ -115,4 +114,4 @@ This step will generate the last filtered result using orgin format and a simple
 
 ## Declaration and cite
 
-This project uses MIT open source protocol. Please click [here]() to see the detail. If you will use the program to complete your study, please cite the paper with: xxxxxxxxxxxxxx. 
+This project uses MIT open source protocol. Please click [here]() to see the detail. If you will use the program to complete your study, please cite the paper with: xxxxxxxxxxxxxx.  

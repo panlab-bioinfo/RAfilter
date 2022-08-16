@@ -6,7 +6,7 @@
 
 ## Install
 
-**kmfilter** requests [**jellyfish**](https://github.com/gmarcais/Jellyfish) to get the kmers of sequence and [htslib](https://github.com/samtools/htslib) to handle .BAM file. We consider integrating  feature of jellyfish in **kmfilter** in the future. For now, one jellyfish available is placed in our codebase.
+**kmfilter** requests [**jellyfish**](https://github.com/gmarcais/Jellyfish) to get the kmers of sequence and [htslib](https://github.com/samtools/htslib) to handle .BAM file. We consider integrating  feature of jellyfish in **kmfilter** in the future. The htslib have be put in our workflow, so you don't need additional installation. But **jellyfish** is needed to install by yourself.
 
 1. The installation method of jullyfish is following <https://github.com/gmarcais/Jellyfish>.
    Please see <https://github.com/samtools/htslib> about htslib.
@@ -110,7 +110,7 @@ In this step, alignment file and pos file creating in [**build**](#build-library
 kmfilter filter -o test/ -p ref.pos query.pos alignment.paf
 ```
 
-This step will generate the last filtered result using orgin format and a simple filter report.
+This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on XXXXXXXX.
 
 ## Declaration and cite
 

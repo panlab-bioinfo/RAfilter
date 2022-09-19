@@ -1,13 +1,11 @@
 object = main.o kmerfind4.o filter.o
-target = kmfilter
+target = rafilter
 LIBS += -L htslib/ -lhts -I htslib/htslib/
 
 
 rafilter : $(object)
 	echo Generate an executable file
-	g++ -g -o $(target) $(object) $(LIBS) -lpthread
-	echo add htslib to LD_LIBRARY_PATH
-	echo export LD_LIBRARY_PATH=`pwd`/htslib/ >> ~/.bashrc
+	g++ -Wl,rpath=htslib/ -o $(target) $(object) $(LIBS) -lpthread
 
 filter.o:
 	cd htslib && autoreconf -i

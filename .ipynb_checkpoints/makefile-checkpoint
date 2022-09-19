@@ -1,2 +1,0 @@
-kmerfind:kmerfind2.cpp
-    g++ -o kmerfind kmerdind2.cpp

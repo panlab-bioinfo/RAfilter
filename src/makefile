@@ -1,17 +1,22 @@
 object = main.o kmerfind4.o filter.o
 target = rafilter
-LIBS += -L htslib/ -lhts -I htslib/htslib/
+CXXFLAGS=-Wl,--rpath=$(PWD)htslib/  -L htslib/ -lhts -I htslib/htslib/ -lpthread
 
-
-rafilter : $(object)
-	echo Generate an executable file
-	g++ -Wl,rpath=htslib/ -o $(target) $(object) $(LIBS) -lpthread
+$(target) : $(object)
+	@echo Generate an executable file
+	g++ -o $(target) $(object) $(CXXFLAGS)
 
 filter.o:
 	cd htslib && autoreconf -i
 	cd htslib && ./configure
 	cd htslib && make
-	g++ -c filter.cpp $(LIBS)
+	g++ -c filter.cpp $(CXXFLAGS)
+
+info :
+	@echo The program "rafilter" will obtained in the processing.
+	@echo pwd is $(PWD)
+	@echo compiler is $(CC)
+	@echo  Flags is $(CXXFLAGS)
 
 .PHONY : clean
 clean :

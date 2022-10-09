@@ -1,3 +1,14 @@
+/*
+Name: RAfilter
+description: a programer for correct alignments.
+	RAfilter can filter the alignments file with the PAF/BAM file by calculation
+of k-mer lists of reference and query. The programer has two sections and at
+first, a k-mer with its pos database is set up. Secondly, alignments with the
+KMAPQ achieved the threshold are leave. The port to set the threshold is exposed
+in options.
+*/
+
+
 #include "clipp.h"
 #include <iostream>
 #include "kmerfind4.hpp"
@@ -6,12 +17,6 @@
 
 
 using namespace clipp;using std::cout;using std::string;using std::thread;
-/*
-	description:
-
-
-
-*/
 
 string program_name="RAfilter";
 string version="V0.0.1";

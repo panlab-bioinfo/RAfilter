@@ -18,7 +18,7 @@ in options.
 
 using namespace clipp;using std::cout;using std::string;using std::thread;
 
-string program_name="RAfilter";
+string program_name="rafilter";
 string version="V0.0.1";
 
 

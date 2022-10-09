@@ -12,7 +12,7 @@
    Please see <https://github.com/samtools/htslib> about htslib.
 2. Get and install rafilter  
    `git clone https://github.com/panlab-bioinfo/RAfilter.git`  
-   `cd rafilter/src`  
+   `cd RAfilter/src`  
    `make`
   
 Note: If the following error: "rafilter: error while loading shared libraries: libhts.so.3: cannot open shared object file: No such file or directory" occurs on runing rafilter, please add the htslib path to the `LD_LIBRARY_PATH`  

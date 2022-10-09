@@ -85,13 +85,13 @@ int main(int argc, char* argv[]) {
 
 
     if(!parse(argc, const_cast<char **>(argv), cli)) {
-		cout << "Usage:\n" << usage_lines(cli, "RAfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "rafilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << "\nERROR: Required parameter missing\n";
 		// throw "Division by zero condition!";
 		exit(0);
 	}
 	if (help){
-		cout << "Usage:\n" << usage_lines(cli, "RAfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "rafilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << '\n';
 		// throw "Division by zero condition!";
 		return 0;

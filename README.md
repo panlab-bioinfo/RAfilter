@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**rafilter** is a filter cli software to obtain the correct alignments and it can only use on linux because of the cost of resource consumption. The program uses  ordered kemr list to evaluate alignments and decides if them should be filtered.
+**rafilter** is a cli software of filter to obtain the correct alignments and it can only use on linux(HPC) because of the cost of resource consumption. The program uses ordered kemr list to evaluate alignments and decides if them should be filtered.
 
 ## Install
 

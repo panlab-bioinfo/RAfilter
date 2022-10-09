@@ -1,6 +1,6 @@
 object = main.o kmerfind4.o filter.o
 target = rafilter
-CXXFLAGS=-Wl,--rpath=$(PWD)htslib/  -L htslib/ -lhts -I htslib/htslib/ -lpthread
+CXXFLAGS=-Wl,--rpath=$(PWD)/htslib/  -L htslib/ -lhts -I htslib/htslib/ -lpthread
 
 $(target) : $(object)
 	@echo Generate an executable file

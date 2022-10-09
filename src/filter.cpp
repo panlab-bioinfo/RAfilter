@@ -412,7 +412,7 @@ int read_file(string align_file,string r_pos,string q_pos,bool fmt,string out_pa
 	static_threshold = thre;
     lib_init(r_pos,ref_lib);
     lib_init(q_pos,reads_lib);
-	string outfile = out_path+"filter.paf";
+	string outfile = out_path+"/filter.paf";
 	cout<<outfile<<endl;
 	FILE *fo = fopen(outfile.c_str(),"w");
 	FILE *fq = fopen(q_pos.c_str(),"r"); 
@@ -422,8 +422,12 @@ int read_file(string align_file,string r_pos,string q_pos,bool fmt,string out_pa
         sam_filter(align_file,r_pos,fq,fo,out_path);
 		// bamfile handle
 	}	
-	else 									//The format of alignment file is PAF
-		paf_filter(align_file,r_pos,fq,fo);
+	else{	//The format of alignment file is PAF
+		string sortcmd = "sort -k6,6 " + align_file + " > "+out_path+"/aln.sort.paf";
+		system (sortcmd.c_str());
+		string sort_aln_file = out_path + "/aln.sort.paf";
+		paf_filter(sort_aln_file, r_pos, fq, fo);
+	}
 	fclose(fq);
 	fclose(fo);
     return 1;

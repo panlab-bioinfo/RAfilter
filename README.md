@@ -11,10 +11,9 @@
 1. The installation method of jullyfish is following <https://github.com/gmarcais/Jellyfish>.
    Please see <https://github.com/samtools/htslib> about htslib.
 2. Get and install rafilter  
-   `git clone https://github.com/ruoyu1123/rafilter.git`  
+   `git clone https://github.com/panlab-bioinfo/RAfilter.git`  
    `cd rafilter/src`  
    `make`
-   `source ~/.bashrc`
   
 Note: If the following error: "rafilter: error while loading shared libraries: libhts.so.3: cannot open shared object file: No such file or directory" occurs on runing rafilter, please add the htslib path to the `LD_LIBRARY_PATH`  
 
@@ -109,7 +108,6 @@ In this step, alignment file and pos file creating in [**build**](#build-library
 # For example
 rafilter filter -o test/ -p ref.pos query.pos alignment.paf
 ```
-
 This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on XXXXXXXX.
 
 ## Declaration and cite

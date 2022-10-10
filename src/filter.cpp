@@ -429,6 +429,13 @@ int read_file(string align_file,string r_pos,string q_pos,bool fmt,string out_pa
     return 1;
 }
 
+int splitfile(string file){
+
+;
+
+}
+
+
 // int main(){
 // 	string path = "/data/yangjinbao/data/repeat/sim/human_cut/ont/";
 // 	string paf = path + "sort.aln.paf";

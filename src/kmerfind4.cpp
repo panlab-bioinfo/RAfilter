@@ -258,7 +258,12 @@ int build_pos(const char  *fasta_file, string out_path, bool type, int t1, int t
 	cout<<"Searching kmer in fasta file!\n";
     while (getline(fa,line)){
         if(line[0] == '>'){
-            name=line.substr(1,line.find(' '));
+      		string name = "";
+      		for (auto i = line.begin()+1; i!=line.end();i++){
+          	if (*i==' '|| *i=='\t')
+            	  break;
+          	name += *i;
+      		};
         }
         else
             fpool.submit(search_kmer, line, t1, name, &file[0], &mask[0], t2);

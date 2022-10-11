@@ -1,5 +1,5 @@
-includedir=/data/yangjinbao/projects/kmfilter/src/htslib
-libdir=/data/yangjinbao/projects/kmfilter/src/htslib
+includedir=/home/yangjinbao/usr/RAfilter/src/htslib
+libdir=/home/yangjinbao/usr/RAfilter/src/htslib
 
 # Flags and libraries needed when linking against a static libhts.a
 # (used by manual and semi-manual pkg-config(1)-style enquiries).

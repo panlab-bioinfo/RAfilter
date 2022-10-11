@@ -442,7 +442,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/data/yangjinbao/projects/kmfilter/src/htslib'
+ac_pwd='/home/yangjinbao/usr/RAfilter/src/htslib'
 srcdir='.'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
@@ -629,7 +629,7 @@ S["s3"]="disabled"
 S["gcs"]="disabled"
 S["libcurl"]="disabled"
 S["PLUGIN_EXT"]=".so"
-S["EGREP"]="/usr/bin/grep -E"
+S["EGREP"]="/bin/grep -E"
 S["CPP"]="gcc -E"
 S["PLATFORM"]="default"
 S["pluginpath"]="$(libexecdir)/htslib"
@@ -638,8 +638,8 @@ S["with_external_htscodecs"]="no"
 S["enable_plugins"]="no"
 S["PKG_CONFIG_LIBDIR"]=""
 S["PKG_CONFIG_PATH"]=""
-S["PKG_CONFIG"]="/usr/bin/pkg-config"
-S["GREP"]="/usr/bin/grep"
+S["PKG_CONFIG"]=""
+S["GREP"]="/bin/grep"
 S["RANLIB"]="ranlib"
 S["OBJEXT"]="o"
 S["EXEEXT"]=""

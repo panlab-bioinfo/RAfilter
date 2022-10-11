@@ -1,3 +1,14 @@
+/*
+Name: RAfilter
+description: a programer for correct alignments.
+	RAfilter can filter the alignments file with the PAF/BAM file by calculation
+of k-mer lists of reference and query. The programer has two sections and at
+first, a k-mer with its pos database is set up. Secondly, alignments with the
+KMAPQ achieved the threshold are leave. The port to set the threshold is exposed
+in options.
+*/
+
+
 #include "clipp.h"
 #include <iostream>
 #include "kmerfind4.hpp"
@@ -6,14 +17,8 @@
 
 
 using namespace clipp;using std::cout;using std::string;using std::thread;
-/*
-	description:
 
-
-
-*/
-
-string program_name="RAfilter";
+string program_name="rafilter";
 string version="V0.0.1";
 
 
@@ -80,13 +85,13 @@ int main(int argc, char* argv[]) {
 
 
     if(!parse(argc, const_cast<char **>(argv), cli)) {
-		cout << "Usage:\n" << usage_lines(cli, "RAfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "rafilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << "\nERROR: Required parameter missing\n";
 		// throw "Division by zero condition!";
 		exit(0);
 	}
 	if (help){
-		cout << "Usage:\n" << usage_lines(cli, "RAfilter", fmt)
+		cout << "Usage:\n" << usage_lines(cli, "rafilter", fmt)
      << "\nOptions:\n" << documentation(cli, fmt) << '\n';
 		// throw "Division by zero condition!";
 		return 0;
@@ -104,7 +109,7 @@ int main(int argc, char* argv[]) {
 	 *	Build the kmer pos for certain fasta file
 	*/
 	if (mode=='b'){
-		cout<<"Building kmer pos for input fa\nReading the kmer file---------------------------------------------------------------\n";
+		cout<<"Building kmer pos for input fa\nReading the kmer file\n.........\n";
 		if (fopen(kmer_file.c_str(),"r")){
 			read_kmer(kmer_file.c_str(),t1);
 			cout<<"Saved the kmer in hash table\n";

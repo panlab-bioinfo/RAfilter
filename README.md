@@ -21,11 +21,11 @@ Note: If the following error: "rafilter: error while loading shared libraries: l
 
 The workflow of rafilter is a two-step process. The first is build kmer pos library and the second step is filter alignments.  
 
-```shell{.line-numbers}
+```shell
  $ rafilter
 Usage:
         rafilter build [-t <threads>] [-o <out_path>] [-q <query>] [-r <reffile>] <kmerfile>
-        rafilter filter [-o <out_path>] [-p/-b] <r_pos> <q_pos> <paf/bam>
+        rafilter filter [-o <out_path>] [-p/-b] [--threshold <threshold>] <r_pos> <q_pos> <paf/bam>
         rafilter -h
         rafilter -V
 Options:
@@ -39,6 +39,7 @@ Options:
         filter:
             -o, --out-put     Diractory of output
             -p/-b             Format of alignment file [p:paf/b:bam]
+            --threshold       Threshold of KMAPQ to filter
             <r_pos>           Ref pos file built with build
             <q_pos>           Query pos file built with build
             <paf/bam>         Alignment file
@@ -107,7 +108,7 @@ In this step, alignment file and pos file creating in [**build**](#build-library
 
 ```shell{}
 # For example
-rafilter filter -o test/ -p ref.pos query.pos alignment.paf
+rafilter filter -o test/ --threshold 12 -p ref.pos query.pos alignment.paf
 ```
 This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on XXXXXXXX.
 > We recommend apply PAF format of minimap2 as the input file.

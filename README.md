@@ -85,7 +85,7 @@ And you can get the format file using the follow command.
 sed -n '1~4s/^@/>/p;2~4p' reads.fastq > query.fa  # For fastq
 
 
-# fasta 转单行fasta
+# fasta to fasta with single line sequence
 awk '/^>/{print n $1; n = "\n"} !/^>/{printf "%s",$0}' test.fasta > reference.fa  # For fasta
 
 ```

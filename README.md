@@ -53,13 +53,13 @@ Options:
 **rafilter** requests the result of **jellyfish** and the format as follow. On the workflow, kmer length must be 21. The detail see https://github.com/gmarcais/Jellyfish/blob/master/doc/Readme.md
 
 ```shell{}
-jellyfish count -m 21 -s 1G -t 16 -C reads.fasta
+jellyfish count -m 21 -s 1G -t 16 -C reference.fasta
 
 # for HiFi reads alignments, we recommand use unique kmer.
-jellyfish dump -c -U 1 mer_counts.jf > unique.kmer   # HiFi reads
+jellyfish dump -c -U 1 mer_counts.jf > unique.kmer   # HiFi alignment
 
 # For ONT reads alignments, we recommand use the rare kmer with the frequency Lower than 4.
-jellyfish dump -c -U 3 mer_counts.jf > rare.kmer   # ONT reads
+jellyfish dump -c -U 3 mer_counts.jf > rare.kmer   # ONT alignment
 ```
 
 NOTE: The parameter -c is necessary for rafilter because of input format.  

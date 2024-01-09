@@ -110,9 +110,9 @@ In this step, alignment file and pos file creating in [**build**](#build-library
 # For example
 rafilter filter -o test/ --threshold 12 -p ref.pos query.pos alignment.paf
 ```
-This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on XXXXXXXX.
+This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on testdata.
 > We recommend apply PAF format of minimap2 as the input file.
 
 ## Declaration and cite
 
-This project uses MIT open source protocol. Please click [here]() to see the detail. If you will use the program to complete your study, please cite the paper with: xxxxxxxxxxxxxx.  
+This project uses MIT open source protocol. Please click [here]() to see the detail. If you will use the program to complete your study, please cite the paper with:[Yang, J. et al. RAfilter: an algorithm for detecting and filtering false-positive alignments in repetitive genomic regions. Horticulture Research 10, uhac288 (2023)](https://academic.oup.com/hr/article/doi/10.1093/hr/uhac288/6965242).  

@@ -110,7 +110,7 @@ In this step, alignment file and pos file creating in [**build**](#build-library
 # For example
 rafilter filter -o test/ --threshold 12 -p ref.pos query.pos alignment.paf
 ```
-This step will generate the last filtered result using orgin format and a simple filter report. The sample test file can be accessed on testdata.
+This step will generate the last filtered result using orgin format and a simple filter report. The sample data and scripts are avaliable from [ruoyu1123/rafilter_test](https://github.com/ruoyu1123/rafilter_test).
 > We recommend apply PAF format of minimap2 as the input file.
 
 ## Declaration and cite

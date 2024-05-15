@@ -9,52 +9,58 @@ in options.
 */
 
 
-#include "clipp.h"
 #include <iostream>
+#include <thread>
 #include "kmerfind4.hpp"
 #include "filter.hpp"
-#include <thread>
+#ifndef CLIPP_
+#define CLIPP_
+#include "clipp.h"
+#endif //clipp.h
 
+using namespace clipp;
+using std::cout;
+using std::endl;
+using std::string;
+using std::thread;
 
-using namespace clipp;using std::cout;using std::string;using std::thread;
+string program_name = "rafilter";
+string version = "V1.0.0";
 
-string program_name="rafilter";
-string version="V0.0.1";
-
-
-int main(int argc, char* argv[]) {
-	bool help=false;
+int main(int argc, char *argv[])
+{
+	bool help = false;
 	char mode = 'N';
     string kmer_file = "";
     string ref_file = "";
 	string query_file = "";
 	string output_path = "./";
 	string align = "";
-	string rpos="",qpos="";
+	string rpos = "", qpos = "";
 	int threshold = 12;
 	bool align_fmt = 0;
-	//t1:[1,2,3,4,5]
-    int t1=1,t2=8;
-	auto build = "build:" %(
-		option("-t", "--threads").doc("Number of threads") & value("threads", t2),
+	// t1:[1,2,3,4,5]
+	int t1 = 3, t2 = 8;
+	auto build = "build:"
+			% (option("-t", "--threads")/*.doc("Number of threads") */& value("threads", t2),
 		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
-		option("-q", "--query").doc("Query/Reads fasta file") & value("query",query_file),
+			option("-q", "--query").doc("Query/Reads fasta file") & value("query", query_file),
 		option("-r", "--reference").doc("Reference fasta file") & value("reffile", ref_file),
-		value("kmerfile", kmer_file).doc("Kmer file with creating by jellyfish")
-	);
-	auto filter = "filter:" %(
+			value("kmerfile", kmer_file).doc("Kmer file with creating by jellyfish"));
+	auto filter = "filter:"
+		% (option("-t", "--threads")/*.doc("Number of threads")*/ & value("threads", t2),
 		option("-o", "--out-put").doc("Diractory of output") & value("out_path", output_path),
-		(option("-p") | option("-b").set(align_fmt,true)).doc("Format of alignment file [p:paf/b:bam]"),
+		(option("-p") | option("-b").set(align_fmt, true)).doc("Format of alignment file [p:paf/b:bam]"),
 		option("--threshold").doc("Threshold of KMAPQ to filter") & value("threshold", threshold),
-		value("r_pos",rpos).doc("Ref pos file built with build"),
-		value("q_pos",qpos).doc("Query pos file built with build"),
-		value("paf/bam", align).doc("Alignment file")
-	);
+		value("r_pos", rpos).doc("Ref pos file built with build"),
+		value("q_pos", qpos).doc("Query pos file built with build"),
+		value("paf/bam", align).doc("Alignment file"));
 
-
-    auto cli = (
-		(command("build").set(mode,'b'),build) | (command("filter").set(mode,'f'),filter) | command("-h","--help").set(help,true).doc("Show this page") | command("-V","--version")([](){ cout<<program_name<<"__"<<version<<"__"<<endl;}).doc("Version")
-    );
+	auto cli = ((command("build").set(mode, 'b'), build)
+			| (command("filter").set(mode, 'f'), filter),
+			option("-t", "--threads").doc("Number of threads"),
+			option("-h", "--help").set(help, true).doc("Show this page"),
+			option("-V", "--version")([](){printf("%s\n", version.c_str());}));
 
 	auto fmt = doc_formatting{}
 		.first_column(8)                           //left border column for text body
@@ -129,8 +135,12 @@ int main(int argc, char* argv[]) {
 	if (mode=='f'){
 		if (align != ""){
 			// align_fmt will be transmited later.
-			read_file(align, rpos, qpos, align_fmt, output_path, threshold);
-		}
+			cout<<"Thread number : "<< t2
+			<< "\nOutput dictionary : "<<output_path
+			<<"\nAlignments file : "<< align
+			<<"\nAlignment format : "<<align_fmt<<endl;
+			read_file (align, rpos, qpos, align_fmt, output_path, threshold, t2);
+	}
 	}
 	return 0;
 }

@@ -206,6 +206,7 @@ int search_kmer(string line, int t1, string name, FILE *file[], bool mask[], int
         k.sbin = k.sbin >> 2 | base << 40;
         k.rbin = ((k.rbin << 2 | (3ull-base)) & 0x3ffffffffffull);
     }
+    k.pos=len-20;
     for(int j=0;j<t1;j++){
             k.is_ukmer(j,fp);
         }
@@ -215,13 +216,14 @@ int search_kmer(string line, int t1, string name, FILE *file[], bool mask[], int
     return 1;
 }
 
-int build_pos(const char  *fasta_file, string out_path, bool type, int t1, int t2)
+
+int build_pos(const char  *fastx_file, string out_path, bool type, int t1, int t2)
 {
     auto start = clock();
     cout<<"Number of threads: "<<t2<<"\n"<<"Reading the kmer to dicts\n";
     ThreadPool fpool(t2);
     fpool.init();
-    ifstream fa(fasta_file);
+    ifstream fx(fastx_file);
     string line,name;
 
     FILE *file[t2];
@@ -256,23 +258,67 @@ int build_pos(const char  *fasta_file, string out_path, bool type, int t1, int t
     bool mask[t2]={0};
     // auto size=sizeof(KMER);
 	cout<<"Searching kmer in fasta file!\n";
-    while (getline(fa,line)){
+    uint32_t lid=1;
+    getline(fx,line);
+    bool is_fa;
+    if (line[0]=='@'){
+        is_fa=false;
+        name = "";
+        for (auto i = line.begin()+1; i!=line.end();i++){
+            if (*i==' '|| *i=='\t') break;
+            name += *i;
+        };
+    }
+    else if (line[0]=='>')
+    {
+        is_fa=true;
+        name = "";
+        for (auto i = line.begin()+1; i!=line.end();i++){
+            if (*i==' '|| *i=='\t') break;
+            name += *i;
+        };
+    }
+    else{
+        cout<<"uncorrect file format"<<endl;
+        exit(1);
+    }
+    if (is_fa)
+    {
+        while (getline(fx,line)){
         if(line[0] == '>'){
 			name = "";
             for (auto i = line.begin()+1; i!=line.end();i++){
-                if (*i==' '|| *i=='\t')
-                    break;
+                    if (*i==' '|| *i=='\t') break;
                     name += *i;
             };
         }
         else
             fpool.submit(search_kmer, line, t1, name, &file[0], &mask[0], t2);
+        }
+
+    }
+    else{
+        while (getline(fx,line))
+        {
+            lid++;
+            if(lid%4 == 1){
+                name = "";
+                for (auto i = line.begin()+1; i!=line.end();i++){
+                    if (*i==' '|| *i=='\t') break;
+                    name += *i;
+                };
+            }
+            else if(lid % 4 == 2){
+                fpool.submit(search_kmer, line, t1, name, &file[0], &mask[0], t2);
+            }
+            else    continue;
+        }
     }
     fpool.shutdown();
     for(int i=0;i<t2;i++){
         fclose(file[i]);
     }
-    fa.close();
+    fx.close();
 	string cmd,cmd2;
 	if(type){
 		cmd="cat " + out_path +"/*_r.pos > "+ out_path + "/ref.pos";

@@ -83,8 +83,9 @@ void lib_init(string path,lib &library)
         }
         fposend=posfile.tellg();
     }
-    library[name]={fposstart,fposend};
-    cout<<"library success"<<endl;
+    library[name] = {fposstart, fposend};
+    posfile.close();
+    cout << "library success" << endl;
 }
 
 void Ref::ref_lib_init(string path)

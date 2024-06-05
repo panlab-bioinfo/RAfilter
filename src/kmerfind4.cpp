@@ -255,7 +255,7 @@ int build_pos(const char  *fastx_file, string out_path, bool type, int t1, int t
                 outname[6]++;
         } 
     }
-    bool mask[t2]={0};
+    vector<bool> mask(t2,0);
     // auto size=sizeof(KMER);
 	cout<<"Searching kmer in fasta file!\n";
     uint32_t lid=1;
@@ -293,7 +293,7 @@ int build_pos(const char  *fastx_file, string out_path, bool type, int t1, int t
             };
         }
         else
-            fpool.submit(search_kmer, line, t1, name, &file[0], &mask[0], t2);
+            fpool.submit(search_kmer, line, t1, name, &file[0], mask.data(), t2);
         }
 
     }
@@ -309,7 +309,7 @@ int build_pos(const char  *fastx_file, string out_path, bool type, int t1, int t
                 };
             }
             else if(lid % 4 == 2){
-                fpool.submit(search_kmer, line, t1, name, &file[0], &mask[0], t2);
+                fpool.submit(search_kmer, line, t1, name, &file[0], mask.data(), t2);
             }
             else    continue;
         }

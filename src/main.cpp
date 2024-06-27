@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	string output_path = "./";
 	string align = "";
 	string rpos = "", qpos = "";
-	int threshold = 12;
+	int threshold = -1;
 	bool align_fmt = 0;
 	// t1:[1,2,3,4,5]
 	int t1 = 3, t2 = 8;

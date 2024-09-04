@@ -8,7 +8,7 @@ $(target) : $(object)
 
 filter.o:
 	cd htslib && autoreconf -i
-	cd htslib && ./configure
+	cd htslib && ./configure --disable-bz2
 	cd htslib && make
 	g++ -c filter.cpp $(CXXFLAGS)
 

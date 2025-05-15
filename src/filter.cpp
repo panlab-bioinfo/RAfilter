@@ -391,9 +391,9 @@ int sam_filter(string inpath, string r_pos, FILE *q_pos, string outpath)
 		fprintf(stderr, "Error opening '%s'\n", inpath.c_str());
 		return -3;
 		}
-    if ((out = hts_open(outpath.c_str(), "w")) == NULL)
+    if ((out = hts_open(outflie.c_str(), "w")) == NULL)
     {
-			fprintf(stderr, "Error opening '%s'\n", outpath.c_str());
+			fprintf(stderr, "Error opening '%s'\n", outflie.c_str());
 			return -3;
 		}
     if ((hdr = sam_hdr_read(in)) == NULL)
